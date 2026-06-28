@@ -723,9 +723,24 @@
         justify-content: space-between;
       }
 
-      .sidebar-body { padding: 10px 12px 16px; gap: 10px; display: none; }
+      .sidebar-body {
+        padding: 10px 12px 16px;
+        gap: 10px;
+        display: none;
+      }
       .sidebar.open .sidebar-body { display: flex; }
-      .filter-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+      .filter-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 600;
+      }
       .sidebar.open .filter-toggle { background: var(--accent-muted); color: var(--accent); border-color: var(--accent); }
 
       .search-wrapper { margin-bottom: 4px; }
@@ -1669,6 +1684,17 @@
 
   // ── Boot ───────────────────────────────────────────
   init();
+
+  // Mobile filter panel toggle
+  const filterToggle = document.getElementById('filter-toggle');
+  if (filterToggle) {
+    filterToggle.addEventListener('click', () => {
+      const sidebar = filterToggle.closest('.sidebar');
+      if (!sidebar) return;
+      const open = sidebar.classList.toggle('open');
+      filterToggle.setAttribute('aria-expanded', String(open));
+    });
+  }
 
   // ══════════════════════════════════════════════════
   // ── DB Setup ───────────────────────────────────────
