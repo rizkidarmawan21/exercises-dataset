@@ -699,18 +699,21 @@
     @media (max-width: 768px) {
       /* Layout */
       .app-shell {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        display: flex;
+        flex-direction: column;
         height: 100dvh;
+        overflow: hidden;
       }
 
-      /* Sidebar → top panel */
+      /* Sidebar → toolbar panel */
       .sidebar {
-        height: auto;
-        max-height: 45vh;
+        flex-shrink: 0;
         border-right: none;
         border-bottom: 1px solid var(--border);
+        height: auto;
+        max-height: 42vh;
         overflow-y: auto;
+        overflow-x: hidden;
       }
 
       .sidebar-header {
@@ -739,7 +742,11 @@
       .filter-options::-webkit-scrollbar { display: none; }
 
       /* Main */
-      .main-content { height: auto; flex: 1; overflow-y: auto; }
+      .main-content {
+        height: 100%;
+        overflow-y: auto;
+        min-height: 0;
+      }
 
       .results-bar { padding: 10px 14px 8px; }
 
