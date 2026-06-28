@@ -529,7 +529,7 @@
   // ═══════════════════════════════════════════════════
 
   const API_ENDPOINT = 'https://gateway.9arm.co/v1/chat/completions';
-  const API_KEY_ENV = '{{MCP_9ARM_AUTH}}';  // Will be replaced server-side
+  const API_KEY_ENV = '${{ secrets.MCP_9ARM_AUTH }}';
   
   let apiKey = null;
   let conversationHistory = [];
