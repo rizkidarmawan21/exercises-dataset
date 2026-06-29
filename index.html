@@ -547,6 +547,9 @@
       object-fit: contain;
       border-radius: var(--radius-md);
       background: var(--bg-elevated);
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
     }
 
     .modal-meta {
@@ -1709,7 +1712,7 @@
 
     elements.modalOverlay.classList.add('open');
     setTimeout(() => {
-      elements.modalGif.src = ex.gif_url;
+      elements.modalGif.src = ex.gif_url + '?t=' + Date.now();
     }, 50);
   }
 
