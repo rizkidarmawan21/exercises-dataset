@@ -1364,7 +1364,7 @@
       <button class="modal-close" id="modal-close">✕</button>
     </div>
 
-    <div class="modal-media">
+    <div class="modal-media" id="modal-media">
       <img class="modal-gif" id="modal-gif" src="" alt="" />
     </div>
 
@@ -1494,7 +1494,7 @@
     loadSpinner: document.getElementById('load-spinner'),
     modalOverlay: document.getElementById('modal-overlay'),
     modalTitle: document.getElementById('modal-title'),
-    modalGif: document.getElementById('modal-gif'),
+    modalMedia: document.getElementById('modal-media'),
     modalMeta: document.getElementById('modal-meta'),
     modalMuscles: document.getElementById('modal-muscles'),
     instructionsList: document.getElementById('instructions-list'),
@@ -1658,7 +1658,7 @@
 
   function openModal(ex) {
     elements.modalTitle.textContent = ex.name;
-    elements.modalGif.src = '';
+    elements.modalMedia.innerHTML = '';
 
     elements.modalMeta.innerHTML = `
       <div class="meta-chip">
@@ -1712,7 +1712,7 @@
 
     elements.modalOverlay.classList.add('open');
     setTimeout(() => {
-      elements.modalGif.src = ex.gif_url + '?t=' + Date.now();
+      elements.modalMedia.innerHTML = `<img class="modal-gif" id="modal-gif" src="${ex.gif_url}?t=${Date.now()}" alt="${ex.name}" />`;
     }, 50);
   }
 
@@ -1817,13 +1817,13 @@
 
   elements.modalClose.addEventListener('click', () => {
     elements.modalOverlay.classList.remove('open');
-    elements.modalGif.src = '';
+    elements.modalMedia.innerHTML = '';
   });
 
   elements.modalOverlay.addEventListener('click', (e) => {
     if (e.target === elements.modalOverlay) {
       elements.modalOverlay.classList.remove('open');
-      elements.modalGif.src = '';
+      elements.modalMedia.innerHTML = '';
     }
   });
 
