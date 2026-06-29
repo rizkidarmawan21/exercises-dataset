@@ -1712,7 +1712,13 @@
 
     elements.modalOverlay.classList.add('open');
     setTimeout(() => {
-      elements.modalMedia.innerHTML = `<img class="modal-gif" id="modal-gif" src="${ex.gif_url}?t=${Date.now()}" alt="${ex.name}" />`;
+      const mp4Url = ex.gif_url.replace('.gif', '.mp4');
+      elements.modalMedia.innerHTML = `
+        <video class="modal-gif" id="modal-gif" autoplay loop muted playsinline>
+          <source src="${mp4Url}" type="video/mp4">
+          <img class="modal-gif" src="${ex.gif_url}" alt="${ex.name}" />
+        </video>
+      `;
     }, 50);
   }
 
