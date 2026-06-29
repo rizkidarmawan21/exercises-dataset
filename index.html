@@ -1655,7 +1655,7 @@
 
   function openModal(ex) {
     elements.modalTitle.textContent = ex.name;
-    elements.modalGif.src = ex.gif_url;
+    elements.modalGif.src = '';
 
     elements.modalMeta.innerHTML = `
       <div class="meta-chip">
@@ -1708,6 +1708,9 @@
     });
 
     elements.modalOverlay.classList.add('open');
+    setTimeout(() => {
+      elements.modalGif.src = ex.gif_url;
+    }, 50);
   }
 
   function createInstructionsList(text) {
@@ -1811,11 +1814,13 @@
 
   elements.modalClose.addEventListener('click', () => {
     elements.modalOverlay.classList.remove('open');
+    elements.modalGif.src = '';
   });
 
   elements.modalOverlay.addEventListener('click', (e) => {
     if (e.target === elements.modalOverlay) {
       elements.modalOverlay.classList.remove('open');
+      elements.modalGif.src = '';
     }
   });
 
