@@ -939,6 +939,172 @@
     .copy-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
     .copy-btn.copied { color: #4ade80; border-color: #4ade80; }
 
+    /* ── Topbar (mobile only) & Filter Modal ─────────── */
+    .topbar {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+    }
+    .topbar .search-wrapper {
+      margin-bottom: 0;
+      flex: 1;
+    }
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      position: relative;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    .filter-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg-surface);
+      padding: 0 4px;
+    }
+    .filter-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s linear 0.25s, opacity 0.25s ease;
+    }
+    .filter-modal.open {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s;
+    }
+    .filter-modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .filter-modal-content {
+      position: relative;
+      background: var(--bg-surface);
+      width: 100%;
+      max-height: 80dvh;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .filter-modal.open .filter-modal-content {
+      transform: translateY(0);
+    }
+    .filter-modal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .filter-modal-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .filter-modal-close {
+      font-size: 18px;
+      color: var(--text-secondary);
+      padding: 4px;
+    }
+    .filter-modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .filter-modal-body .filter-section {
+      border: 1px solid var(--border);
+    }
+    .filter-modal-body .filter-summary {
+      padding: 12px 14px;
+      background: var(--bg-elevated);
+    }
+    .filter-modal-body .filter-options {
+      padding: 8px 14px 14px;
+    }
+    .filter-modal-footer {
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+    }
+    .filter-modal-clear {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-align: center;
+      background: var(--bg-elevated);
+      transition: var(--transition);
+    }
+    .filter-modal-clear:hover {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+    .filter-modal-apply {
+      flex: 2;
+      padding: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      text-align: center;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+    .filter-modal-apply:hover {
+      background: var(--accent-dark);
+    }
+
     /* ── Responsive: Tablet & Mobile ─────────────────── */
     @media (max-width: 1024px) {
       :root {
@@ -963,50 +1129,14 @@
         height: 100dvh;
       }
 
-      /* Sidebar → top panel */
-      .sidebar {
-        height: auto;
-        max-height: 50vh;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .sidebar-header {
-        padding: 14px 14px 12px;
+      .topbar {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
       }
 
-      .sidebar-logo {
-        font-size: 14px;
+      /* Sidebar → hidden on mobile, replaced by bottom sheet filter modal */
+      .sidebar {
+        display: none !important;
       }
-
-      .sidebar-body {
-        padding: 10px 12px 16px;
-        gap: 10px;
-        flex-wrap: wrap;
-        flex-direction: row;
-      }
-
-      .search-wrapper { 
-        margin-bottom: 4px;
-        flex: 1;
-        min-width: 200px;
-      }
-
-      .filter-section { width: 100%; }
-
-      .filter-options {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-bottom: 2px;
-      }
-      .filter-options::-webkit-scrollbar { display: none; }
 
       /* Main */
       .main-content { height: auto; flex: 1; overflow-y: auto; }
@@ -1126,6 +1256,30 @@
 
 <div class="app-shell">
 
+  <!-- ──────────────────────────────── TOPBAR (mobile) ──────────────────────────────── -->
+  <header class="topbar" id="topbar">
+    <button class="filter-btn" id="filter-btn" aria-label="Show filters" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+      <span class="filter-badge" id="filter-badge" hidden></span>
+    </button>
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        type="text"
+        class="search-box"
+        id="mobile-search-input"
+        placeholder="Search exercises..."
+        spellcheck="false"
+      />
+      <button class="search-clear" id="mobile-search-clear">✕</button>
+    </div>
+  </header>
+
   <!-- ──────────────────────────────── SIDEBAR ──────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-header">
@@ -1139,8 +1293,8 @@
       </button>
     </div>
 
-    <div class="sidebar-body">
-      <!-- Search Box -->
+    <div class="sidebar-body" id="sidebar-body">
+      <!-- Search Box (Desktop) -->
       <div class="search-wrapper">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -1222,6 +1376,40 @@
   </div>
 </div>
 
+<!-- ──────────────────────────────── MOBILE FILTER MODAL ──────────────────────────────── -->
+<div class="filter-modal" id="filter-modal" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title">
+  <div class="filter-modal-backdrop" id="filter-modal-backdrop"></div>
+  <div class="filter-modal-content">
+    <header class="filter-modal-header">
+      <h2 id="filter-modal-title">Filters</h2>
+      <button class="filter-modal-close" id="filter-modal-close" aria-label="Close filters">✕</button>
+    </header>
+    <div class="filter-modal-body">
+      <details class="filter-section">
+        <summary class="filter-summary">💪 Category</summary>
+        <div class="filter-options" id="mobile-category-filter"></div>
+        <button class="filter-show-more" id="mobile-show-more-category">Show more</button>
+      </details>
+
+      <details class="filter-section">
+        <summary class="filter-summary">🎯 Equipment</summary>
+        <div class="filter-options" id="mobile-equipment-filter"></div>
+        <button class="filter-show-more" id="mobile-show-more-equipment">Show more</button>
+      </details>
+
+      <details class="filter-section">
+        <summary class="filter-summary">🔗 Target</summary>
+        <div class="filter-options" id="mobile-target-filter"></div>
+        <button class="filter-show-more" id="mobile-show-more-target">Show more</button>
+      </details>
+    </div>
+    <footer class="filter-modal-footer">
+      <button class="filter-modal-clear" id="filter-modal-clear">Clear all</button>
+      <button class="filter-modal-apply" id="filter-modal-apply">Apply</button>
+    </footer>
+  </div>
+</div>
+
 <!-- ──────────────────────────────── DB SETUP MODAL ──────────────────────────────── -->
 <div class="db-overlay" id="db-overlay">
   <div class="db-panel">
@@ -1281,9 +1469,21 @@
   const elements = {
     searchInput: document.getElementById('search-input'),
     searchClear: document.getElementById('search-clear'),
+    mobileSearchInput: document.getElementById('mobile-search-input'),
+    mobileSearchClear: document.getElementById('mobile-search-clear'),
     categoryFilter: document.getElementById('category-filter'),
     equipmentFilter: document.getElementById('equipment-filter'),
     targetFilter: document.getElementById('target-filter'),
+    mobileCategoryFilter: document.getElementById('mobile-category-filter'),
+    mobileEquipmentFilter: document.getElementById('mobile-equipment-filter'),
+    mobileTargetFilter: document.getElementById('mobile-target-filter'),
+    filterBtn: document.getElementById('filter-btn'),
+    filterBadge: document.getElementById('filter-badge'),
+    filterModal: document.getElementById('filter-modal'),
+    filterModalBackdrop: document.getElementById('filter-modal-backdrop'),
+    filterModalClose: document.getElementById('filter-modal-close'),
+    filterModalApply: document.getElementById('filter-modal-apply'),
+    filterModalClear: document.getElementById('filter-modal-clear'),
     exerciseGrid: document.getElementById('exercise-grid'),
     resultsCount: document.getElementById('results-count'),
     activeFiltersEl: document.getElementById('active-filters'),
@@ -1336,6 +1536,11 @@
     populateFilterUI(elements.categoryFilter, categories, 'categories', 'show-more-category');
     populateFilterUI(elements.equipmentFilter, equipment, 'equipment', 'show-more-equipment');
     populateFilterUI(elements.targetFilter, targets, 'targets', 'show-more-target');
+
+    // Populate mobile modal filters
+    populateFilterUI(elements.mobileCategoryFilter, categories, 'categories', 'mobile-show-more-category');
+    populateFilterUI(elements.mobileEquipmentFilter, equipment, 'equipment', 'mobile-show-more-equipment');
+    populateFilterUI(elements.mobileTargetFilter, targets, 'targets', 'mobile-show-more-target');
   }
 
   function populateFilterUI(container, items, filterKey, showMoreId) {
@@ -1526,6 +1731,10 @@
     activeFilters.categories.forEach(cat => addActiveBadge('categories', cat));
     activeFilters.equipment.forEach(eq => addActiveBadge('equipment', eq));
     activeFilters.targets.forEach(tgt => addActiveBadge('targets', tgt));
+
+    const filterCount = activeFilters.categories.length + activeFilters.equipment.length + activeFilters.targets.length;
+    elements.filterBadge.textContent = filterCount;
+    elements.filterBadge.hidden = filterCount === 0;
   }
 
   function addActiveBadge(type, value) {
@@ -1540,6 +1749,7 @@
       if (type === 'search') {
         activeFilters.search = '';
         elements.searchInput.value = '';
+        elements.mobileSearchInput.value = '';
       } else {
         const index = activeFilters[type].indexOf(value);
         if (index > -1) {
@@ -1554,14 +1764,35 @@
   // Event Listeners
   elements.searchInput.addEventListener('input', (e) => {
     activeFilters.search = e.target.value;
+    elements.mobileSearchInput.value = e.target.value;
     elements.searchClear.classList.toggle('visible', e.target.value.length > 0);
+    elements.mobileSearchClear.classList.toggle('visible', e.target.value.length > 0);
+    applyFilters();
+  });
+
+  elements.mobileSearchInput.addEventListener('input', (e) => {
+    activeFilters.search = e.target.value;
+    elements.searchInput.value = e.target.value;
+    elements.searchClear.classList.toggle('visible', e.target.value.length > 0);
+    elements.mobileSearchClear.classList.toggle('visible', e.target.value.length > 0);
     applyFilters();
   });
 
   elements.searchClear.addEventListener('click', () => {
     elements.searchInput.value = '';
+    elements.mobileSearchInput.value = '';
     activeFilters.search = '';
     elements.searchClear.classList.remove('visible');
+    elements.mobileSearchClear.classList.remove('visible');
+    applyFilters();
+  });
+
+  elements.mobileSearchClear.addEventListener('click', () => {
+    elements.searchInput.value = '';
+    elements.mobileSearchInput.value = '';
+    activeFilters.search = '';
+    elements.searchClear.classList.remove('visible');
+    elements.mobileSearchClear.classList.remove('visible');
     applyFilters();
   });
 
@@ -1571,7 +1802,9 @@
     activeFilters.equipment = [];
     activeFilters.targets = [];
     elements.searchInput.value = '';
+    elements.mobileSearchInput.value = '';
     elements.searchClear.classList.remove('visible');
+    elements.mobileSearchClear.classList.remove('visible');
     document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
     applyFilters();
   });
@@ -1598,6 +1831,29 @@
     if (e.target === elements.dbOverlay) {
       elements.dbOverlay.classList.remove('open');
     }
+  });
+
+  // Mobile Filter Modal listeners
+  elements.filterBtn.addEventListener('click', () => {
+    elements.filterModal.classList.add('open');
+    elements.filterBtn.setAttribute('aria-expanded', 'true');
+  });
+
+  const closeFilterModal = () => {
+    elements.filterModal.classList.remove('open');
+    elements.filterBtn.setAttribute('aria-expanded', 'false');
+  };
+
+  elements.filterModalClose.addEventListener('click', closeFilterModal);
+  elements.filterModalBackdrop.addEventListener('click', closeFilterModal);
+  elements.filterModalApply.addEventListener('click', closeFilterModal);
+
+  elements.filterModalClear.addEventListener('click', () => {
+    activeFilters.categories = [];
+    activeFilters.equipment = [];
+    activeFilters.targets = [];
+    document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+    applyFilters();
   });
 
   // Infinite scroll
