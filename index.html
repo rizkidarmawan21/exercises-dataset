@@ -387,6 +387,24 @@
     .exercise-card:hover .card-thumb { opacity: 0; }
     .exercise-card:hover .card-gif { opacity: 1; }
 
+    .card-index {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      line-height: 1;
+    }
+
     .card-body {
       padding: 9px 11px 11px;
     }
@@ -1641,17 +1659,18 @@
       return;
     }
 
-    items.forEach(ex => {
-      const card = createExerciseCard(ex);
+    items.forEach((ex, i) => {
+      const card = createExerciseCard(ex, start + i + 1);
       elements.exerciseGrid.appendChild(card);
     });
   }
 
-  function createExerciseCard(ex) {
+  function createExerciseCard(ex, index) {
     const card = document.createElement('div');
     card.className = 'exercise-card';
     card.innerHTML = `
       <div class="card-media">
+        <span class="card-index">${index}</span>
         <img class="card-thumb" src="${ex.image}" alt="${ex.name}" loading="lazy" />
         <img class="card-gif" src="${ex.gif_url}" alt="${ex.name}" loading="lazy" />
       </div>
