@@ -1881,8 +1881,9 @@
     applyFilters();
   });
 
-  // Infinite scroll
-  window.addEventListener('scroll', () => {
+  // Infinite scroll — listen on the actual scroll container
+  const scrollContainer = document.querySelector('.main-content');
+  scrollContainer.addEventListener('scroll', () => {
     const sentinel = document.getElementById('load-sentinel');
     const isNear = sentinel.getBoundingClientRect().bottom < window.innerHeight + 200;
     
