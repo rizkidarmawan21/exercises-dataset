@@ -1157,19 +1157,19 @@
       </div>
 
       <!-- Filter Sections -->
-      <details class="filter-section" open>
+      <details class="filter-section">
         <summary class="filter-summary">💪 Category</summary>
         <div class="filter-options" id="category-filter"></div>
         <button class="filter-show-more" id="show-more-category">Show more</button>
       </details>
 
-      <details class="filter-section" open>
+      <details class="filter-section">
         <summary class="filter-summary">🎯 Equipment</summary>
         <div class="filter-options" id="equipment-filter"></div>
         <button class="filter-show-more" id="show-more-equipment">Show more</button>
       </details>
 
-      <details class="filter-section" open>
+      <details class="filter-section">
         <summary class="filter-summary">🔗 Target</summary>
         <div class="filter-options" id="target-filter"></div>
         <button class="filter-show-more" id="show-more-target">Show more</button>
@@ -1302,8 +1302,22 @@
     dbOverlayClose: document.getElementById('db-overlay-close')
   };
 
+  // Adjust filter open state based on screen width
+  function adjustFilterCollapse() {
+    const isDesktop = window.innerWidth > 768;
+    document.querySelectorAll('.filter-section').forEach(details => {
+      if (isDesktop) {
+        details.setAttribute('open', '');
+      } else {
+        details.removeAttribute('open');
+      }
+    });
+  }
+
   // Load initial data
   async function loadExercises() {
+    adjustFilterCollapse();
+    window.addEventListener('resize', adjustFilterCollapse);
     try {
       const response = await fetch('data/exercises.json');
       allExercises = await response.json();
