@@ -1278,7 +1278,7 @@
       }
     }
   </style>
-</head>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f172a"></head>
 <body>
 
 <div class="app-shell">
@@ -1928,5 +1928,5 @@
   loadExercises();
 </script>
 
-</body>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js")}</script></body>
 </html>
