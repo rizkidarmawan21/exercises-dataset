@@ -463,7 +463,7 @@
       .section-desc { padding-left: 0; }
     }
   </style>
-</head>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f172a"></head>
 <body>
 
 <!-- Header -->
@@ -743,14 +743,7 @@ const DB_SQL = {
   body_part         NVARCHAR(100),
   equipment         NVARCHAR(100),
   instructions_en   NVARCHAR(MAX),
-  instructions_es   NVARCHAR(MAX),
-  instructions_it   NVARCHAR(MAX),
   instructions_tr   NVARCHAR(MAX),
-  instructions_ru   NVARCHAR(MAX),
-  instructions_zh   NVARCHAR(MAX),
-  instructions_hi   NVARCHAR(MAX),
-  instructions_pl   NVARCHAR(MAX),
-  instructions_ko   NVARCHAR(MAX),
   muscle_group      NVARCHAR(100),
   secondary_muscles NVARCHAR(MAX),  -- JSON array stored as string
   target            NVARCHAR(100),
@@ -765,14 +758,7 @@ const DB_SQL = {
   body_part         VARCHAR(100),
   equipment         VARCHAR(100),
   instructions_en   TEXT,
-  instructions_es   TEXT,
-  instructions_it   TEXT,
   instructions_tr   TEXT,
-  instructions_ru   TEXT,
-  instructions_zh   TEXT,
-  instructions_hi   TEXT,
-  instructions_pl   TEXT,
-  instructions_ko   TEXT,
   muscle_group      VARCHAR(100),
   secondary_muscles JSONB,
   target            VARCHAR(100),
@@ -787,14 +773,7 @@ const DB_SQL = {
   body_part         VARCHAR(100),
   equipment         VARCHAR(100),
   instructions_en   TEXT,
-  instructions_es   TEXT,
-  instructions_it   TEXT,
   instructions_tr   TEXT,
-  instructions_ru   TEXT,
-  instructions_zh   TEXT,
-  instructions_hi   TEXT,
-  instructions_pl   TEXT,
-  instructions_ko   TEXT,
   muscle_group      VARCHAR(100),
   secondary_muscles JSON,
   target            VARCHAR(100),
@@ -809,14 +788,7 @@ const DB_SQL = {
   body_part         TEXT,
   equipment         TEXT,
   instructions_en   TEXT,
-  instructions_es   TEXT,
-  instructions_it   TEXT,
   instructions_tr   TEXT,
-  instructions_ru   TEXT,
-  instructions_zh   TEXT,
-  instructions_hi   TEXT,
-  instructions_pl   TEXT,
-  instructions_ko   TEXT,
   muscle_group      TEXT,
   secondary_muscles TEXT,  -- JSON array stored as string
   target            TEXT,
@@ -1033,7 +1005,7 @@ Console.WriteLine(exercise?.GifUrl);   // videos/0001.gif
 // Model
 record Exercise(
     string Id, string Name, string Category, string BodyPart,
-    string Equipment, string? InstructionsEn, string? InstructionsEs, string? InstructionsIt, string? InstructionsTr, string? InstructionsRu,
+    string Equipment, string? InstructionsEn, string? InstructionsTr,
     string MuscleGroup, string[] SecondaryMuscles, string Target,
     string Image, string GifUrl, string? CreatedAt
 );`,
@@ -1401,7 +1373,7 @@ function buildLlmPrompt(fwKey, dbKey) {
 
 ## Dataset Overview
 - 1,324 fitness exercises
-- Fields: id (string, e.g. "0001"), name, category, body_part, equipment, instructions_en (full text), instructions_es (Spanish text), instructions_it (Italian text), instructions_tr (Turkish text), instructions_ru (Russian text), instructions_zh (Chinese text), instructions_hi (Hindi text), instructions_pl (Polish text), instructions_ko (Korean text), instructions_fr (French text), muscle_group, secondary_muscles (JSON array of strings), target, image (relative path like "images/0001.jpg"), gif_url (relative path like "videos/0001.gif"), created_at
+- Fields: id (string, e.g. "0001"), name, category, body_part, equipment, instructions_en (full text), instructions_tr (Turkish text), muscle_group, secondary_muscles (JSON array of strings), target, image (relative path like "images/0001.jpg"), gif_url (relative path like "videos/0001.gif"), created_at
 
 ## Database Schema (${db.name})
 \`\`\`sql
@@ -1524,14 +1496,7 @@ function buildInserts(exercises, db) {
     const instrEn = ex.instructions && ex.instructions.en
       ? ex.instructions.en
       : (Array.isArray(ex.instruction_steps) ? ex.instruction_steps.join(' ') : (ex.instructions || ''));
-    const instrEs = ex.instructions && ex.instructions.es ? ex.instructions.es : '';
-    const instrIt = ex.instructions && ex.instructions.it ? ex.instructions.it : '';
     const instrTr = ex.instructions && ex.instructions.tr ? ex.instructions.tr : '';
-    const instrRu = ex.instructions && ex.instructions.ru ? ex.instructions.ru : '';
-    const instrZh = ex.instructions && ex.instructions.zh ? ex.instructions.zh : '';
-    const instrHi = ex.instructions && ex.instructions.hi ? ex.instructions.hi : '';
-    const instrPl = ex.instructions && ex.instructions.pl ? ex.instructions.pl : '';
-    const instrKo = ex.instructions && ex.instructions.ko ? ex.instructions.ko : '';
 
     const vals = [
       escStr(ex.id, db),
@@ -1540,14 +1505,7 @@ function buildInserts(exercises, db) {
       escStr(ex.body_part, db),
       escStr(ex.equipment, db),
       escStr(instrEn, db),
-      escStr(instrEs, db),
-      escStr(instrIt, db),
       escStr(instrTr, db),
-      escStr(instrRu, db),
-      escStr(instrZh, db),
-      escStr(instrHi, db),
-      escStr(instrPl, db),
-      escStr(instrKo, db),
       escStr(ex.muscle_group, db),
       escStr(muscles, db),
       escStr(ex.target, db),
@@ -1556,7 +1514,7 @@ function buildInserts(exercises, db) {
       escStr(ex.created_at, db),
     ].join(', ');
 
-    lines.push(`INSERT INTO exercises (id, name, category, body_part, equipment, instructions_en, instructions_es, instructions_it, instructions_tr, instructions_ru, instructions_zh, instructions_hi, instructions_pl, instructions_ko, muscle_group, secondary_muscles, target, image, gif_url, created_at) VALUES (${vals});`);
+    lines.push(`INSERT INTO exercises (id, name, category, body_part, equipment, instructions_en, instructions_tr, muscle_group, secondary_muscles, target, image, gif_url, created_at) VALUES (${vals});`);
 
     if (db === 'mssql' && (i + 1) % 50 === 0 && i + 1 < exercises.length) {
       lines.push('GO');
@@ -1711,5 +1669,5 @@ const observer = new IntersectionObserver((entries) => {
 
 sections.forEach(s => observer.observe(s));
 </script>
-</body>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js")}</script></body>
 </html>
